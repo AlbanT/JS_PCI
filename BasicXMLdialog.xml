@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="iso -8859-1"?>
+<Dialog>
+	<Verb ID="49">
+		<Noun ID="1000" Title="XML dialog test">
+			<Modifier ID="10"/>
+		</Noun>
+	</Verb>
+</Dialog>

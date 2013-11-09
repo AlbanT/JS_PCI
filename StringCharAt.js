@@ -1,0 +1,3 @@
+//            0123....
+var myString="Hello world!";
+alert(myString.charAt(1)); 

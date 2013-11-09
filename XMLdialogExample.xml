@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<Dialog>
+  <Verb ID="49">
+    <Noun ID="1000" Title="XML dialog test">
+      <TabPage Title="TabPage">
+        <PictureControl>
+          <Position>1,0</Position>
+          <ControlWidth>200px</ControlWidth>
+          <ControlHeight>138px</ControlHeight>
+        </PictureControl>
+        <Picture>
+          <File>hello-world.jpg</File>
+        </Picture>
+        <Modifier ID="1" Title="String">
+          <Type>Text</Type>
+        </Modifier>
+        <Modifier ID="2" Title="radio button">
+          <Type>Radio</Type>
+        </Modifier>
+        <Modifier ID="3" Title="checkbox">
+          <Type>Check</Type>
+        </Modifier>
+        <Modifier ID="5" Title="a seperator">
+          <Type>Separator</Type>
+        </Modifier>
+        <AdvancedDialog Title="AdvancedDialog">
+          <Modifier ID="40" Title="Checkbox1">
+            <Type>Checkbox</Type>
+          </Modifier>
+        </AdvancedDialog>
+        <TaskPane>
+          <Panel Title="TaskPane">
+            <Modifier ID="52" Title="Colour">
+              <Type>Colour</Type>
+            </Modifier>
+            <Modifier ID="53" Title="Style">
+              <Type>Style</Type>
+            </Modifier>
+          </Panel>
+        </TaskPane>
+        </TabPage>
+        <TabPage Title="other TabPage">
+          <Modifier ID="100" Title="String">
+            <Type>Text</Type>
+          </Modifier>
+      </TabPage>
+    </Noun>
+  </Verb>
+</Dialog>
