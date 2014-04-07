@@ -1,7 +1,3 @@
-	var Database = "Sample_Toolstore_2012R2";
-	var ComputerName ="myComputer";
-	var SQLinstance = "ECSQLEXPRESS";
-
 	//build the SQL query, note that this might need some tweaking in new EC versions!!!!
 	var Query = "SELECT TL_TOOL_DESCRIPTION FROM TS_TOOL WHERE (TL_UNITS_ID = 1) AND (TL_TOOL_TYPE_MILL_ID = 0) ORDER BY TL_DIAMETER";
 	var strOptions = InitMessageString();
@@ -10,7 +6,7 @@
 	
 	//ActiveX control
 	var connection = new ActiveXObject("ADODB.Connection") ;
-	var connectionstring="Provider=SQLOLEDB;Integrated Security=SSPI;Data Source="+ComputerName+"\\"+SQLinstance+";Initial Catalog="+Database+";"
+	var connectionstring = GetRegistryString(_TSTORE_SVR_CFG_REC);
 	connection.Open(connectionstring);
 	var rs = new ActiveXObject("ADODB.Recordset");
 	rs.Open(Query, connection);
