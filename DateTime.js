@@ -12,7 +12,7 @@ function now() {
 		minutes = "0" + minutes
 	}
 	if (seconds < 10){
-		minutes = "0" + seconds
+		seconds = "0" + seconds
 	}
 
 	return day + "-" + month + "-" + year + " " + hours + ":" + minutes + ":" + seconds;
