@@ -1,7 +1,7 @@
-nRet = Query("89", _TRUE);
+nRet = Query("89", _TRUE); // 89 is the entity number
 	ShowData();
 
-	nRet = Query("myBoog", _TRUE);
+	nRet = Query("myBoog", _TRUE); // myBoog is the entity name
 	ShowData(); 
 
 	function ShowData() {
