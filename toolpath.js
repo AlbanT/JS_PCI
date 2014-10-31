@@ -29,10 +29,10 @@ function MoveDiag(X, Y, Z, G1G0, Fxy, Fz, S, Debug) {
 	else if (G1G0 == "G1") {
 		SetModifier(cmd1, 59, 1);
 		SetModifier(cmd1, 5, Fxy);
-		SetModifier(cmd1, 7, Fz); ;
+		SetModifier(cmd1, 6, Fz); ;
 	}
 
-	SetModifier(cmd1, 6, S);
+	SetModifier(cmd1, 7, S);
 	SetModifier(cmd1, 101, X);
 	SetModifier(cmd1, 102, Y);
 	SetModifier(cmd1, 103, Z);
