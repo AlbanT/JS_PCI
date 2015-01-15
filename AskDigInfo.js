@@ -2,7 +2,7 @@ var gdh1 = InitDigInfo();
 
 var nRet = AskDigInfo("Pick Arc(s)", gdh1, _ENTITYDIG, _ETYPE_ARC, "", _TRUE);
 
-if (nRet = _FINISH) { // Drop out of script if the user aborted
+if (nRet == _FINISH) { // Drop out of script if the user aborted
     var hMsg = InitMessageString();
     AddMessageString(hMsg, "Entity List"  );
 
@@ -32,7 +32,7 @@ var gdh2 = InitDigInfo();
 
 var nRet2 = AskDigInfo("Pick a Arc", gdh2, _ENTITYDIG, _ETYPE_ARC, "", _FALSE);
 
-if (nRet = _FINISH) {
+if (nRet == _FINISH) {
 	MessageBox(_MB_ICONERROR, "Invalid input!");
 }
 else {
