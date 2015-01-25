@@ -1,6 +1,31 @@
+/// <reference path="c:\program files (x86)\planit\edgecam 2015 r1\cam\PCI\pci-vsdoc.js" />
 
-DeleteNonToolkitTools(CurrentToolkit());
-DeleteAutoTools();
+SetPCIVariable("$TCname", CurrentToolkit());
+
+var OpID = InitOperation("Purge Tstore", "", 0);
+AddUserModToOperation(OpID, "$TCname", "Toolkit", "General", 0, "");
+// add checkbox to activate/deactivate toolstore browse button
+AddUserModToOperation(OpID, "_check_EmptyTools", "Remove tools without position number from toolkit?", "General^Toolkit", 0, "");
+AddUserModToOperation(OpID, "_check_AutoTools", "Remove AutoTool tools from the Tstore?", "General^Toolstore", 0, "");
+AddUserModToOperation(OpID, "_check_NewToolkits", "Remove all toolkits like 'New Toolkit.x' from the Tstore?", "General^Toolstore", 0, "");
+
+var nOpRet = DoOperationMods(OpID);
+
+if (nOpRet = _FINISH) {
+    if (GetPCIVariable("_check_EmptyTools") == true) {
+        DeleteNonToolkitTools(GetPCIVariable("$TCname"));
+    }
+
+    if (GetPCIVariable("_check_AutoTools") == true) {
+       DeleteAutoTools() ;
+    }
+
+}
+
+
+
+
+
 
 
 function DeleteNonToolkitTools(toolkit) {
@@ -13,10 +38,11 @@ function DeleteNonToolkitTools(toolkit) {
             query += "DELETE FROM [dbo].[TS_MOUNTING]";
             query += "WHERE [MNT_JOB_DESC] = '" + toolkit + "' AND [MNT_TURRET_POSITION] is NULL";
 
-            connection.execute(query);
+           var result = connection.execute(query);
 
             //close the connections between the macro and the SQL server
-            connection.close;
+           connection.close;
+           return result;
 }
 
 
@@ -28,15 +54,17 @@ function DeleteAutoTools() {
 
             var query = "";
 			query += "DELETE FROM [dbo].[TS_MOUNTING]";
-			query += "	WHERE [MNT_TOOL_ID] in (SELECT [TL_TOOL_ID] FROM [CursusToolstore_2014R2].[dbo].[TS_TOOL] where [TL_TOOL_DESCRIPTION] like 'Autotool%')"
+			query += "	WHERE [MNT_TOOL_ID] in (SELECT [TL_TOOL_ID] FROM [dbo].[TS_TOOL] where [TL_TOOL_DESCRIPTION] like 'Autotool%')"
             query += "";
             query += "DELETE FROM [dbo].[TS_TOOL]";
 					 "	WHERE [TL_TOOL_DESCRIPTION] like 'Autotool%'";
 
-            connection.execute(query);
+			var result = connection.execute(query);
 
             //close the connections between the macro and the SQL server
-            connection.close;
+			connection.close;
+
+			return result;
 }
 
 
