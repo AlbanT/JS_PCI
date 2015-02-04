@@ -3,10 +3,6 @@
 		var OpID = InitOperation("ListTools thru SQL", "", 0);
 			AddUserModToOperation(OpID, "$Tool", "Name of tool", "", 0, "");   
 			AddUserModToOperation(OpID, "_int_Teeth", "Number of teeth", "", 0, "");   
-			
-			AddUserModToOperation(OpID, "$Database", "Database", "Settings", 0, "");   
-			AddUserModToOperation(OpID, "$ComputerName", "ComputerName", "Settings", 0, ""); 
-			AddUserModToOperation(OpID, "$SQLinstance", "SQL instance", "Settings", 0, ""); 	
 		var nOpRet = DoOperationMods(OpID);
 
 		if (nOpRet==_FINISH) {
