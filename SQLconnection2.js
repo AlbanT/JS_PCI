@@ -10,17 +10,15 @@
 		var nOpRet = DoOperationMods(OpID);
 
 		if (nOpRet==_FINISH) {
-			var Database = GetPCIvariable("$Database");
-			var ComputerName = GetPCIvariable("$ComputerName");
-			var SQLinstance = GetPCIvariable("$SQLinstance");
 
-			//build the SQL query, note that this might need some tweaking in new EC versions!!!!
+			//build the SQL query, note that this might need some tweaking between EC versions!!!!
 			var Query = "UPDATE ["+Database+"].[dbo].[TS_TOOL] SET [TL_TEETH] = "+GetPCIvariable("_int_Teeth")+" WHERE [TL_TOOL_DESCRIPTION] = '"+GetPCIvariable("$Tool")+"'";
 			
 			//ActiveX control
 			var connection = new ActiveXObject("ADODB.Connection") ;
-			var connectionstring="Provider=SQLOLEDB;Integrated Security=SSPI;Data Source="+ComputerName+"\\"+SQLinstance+";Initial Catalog="+Database+";"
+			var connectionstring = GetRegistryString(_TSTORE_SVR_CFG_REC);
 			connection.Open(connectionstring);
+			var rs = new ActiveXObject("ADODB.Recordset");
 			
 			connection.execute(Query)
 			
@@ -28,7 +26,7 @@
 			connection.close;
 			
 			GetToolFromTstore(GetPCIvariable("$Tool"));
-			alert("Notice that the number of teeth is set to "+GetPCIvariable("_int_Teeth"));
+			alert("Notice that the number of teeth is set to " + GetPCIvariable("_int_Teeth"));
 		}
 
 
