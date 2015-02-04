@@ -8,7 +8,7 @@
 		if (nOpRet==_FINISH) {
 
 			//build the SQL query, note that this might need some tweaking between EC versions!!!!
-			var Query = "UPDATE ["+Database+"].[dbo].[TS_TOOL] SET [TL_TEETH] = "+GetPCIvariable("_int_Teeth")+" WHERE [TL_TOOL_DESCRIPTION] = '"+GetPCIvariable("$Tool")+"'";
+			var Query = "UPDATE [TS_TOOL] SET [TL_TEETH] = "+GetPCIvariable("_int_Teeth")+" WHERE [TL_TOOL_DESCRIPTION] = '"+GetPCIvariable("$Tool")+"'";
 			
 			//ActiveX control
 			var connection = new ActiveXObject("ADODB.Connection") ;
