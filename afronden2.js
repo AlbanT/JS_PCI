@@ -18,10 +18,14 @@ var resultCeil = Math.ceil(original);
 var resultFloor = Math.floor(original);
 alert(original + "\n" + result0 + "\n" + result1 +  "\n" + result2 +  "\n" + result3 +  "\n" + resultX +  "\n" + resultCeil +  "\n" + resultFloor); 
 
+alert(Math.PI + " afgerond op 5 decimalen is " + Round(Math.PI,5));  // 3.14159
+alert("23 afgerond naar de dichtstbijzijnde veelvoud van 5 = " + RoundNearest(23,5) + "\n" +
+      "22 afgerond naar de dichtstbijzijnde veelvoud van 5 = " + RoundNearest(23,5)); // 25 and 20
 
-alert(Math.PI + " afgerond op 5 decimalen is " + Afronden(Math.PI,5));
+function Round(Value, Decimals) {
+    return Math.round(Value * Math.pow(10,Decimals)) / Math.pow(10,Decimals);
+}
 
-function Afronden(Getal, Decimalen)
-{
-    return Math.round(Getal * Math.pow(10,Decimalen)) / Math.pow(10,Decimalen);
+function RoundNearest(Value,Nearest) {
+    return Math.ceil(Value / Nearest) * Nearest;
 }

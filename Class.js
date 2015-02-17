@@ -1,29 +1,19 @@
-// Create an instance of a class SmarTeam
-var EdgecamProject1 = new SmarTeam("A", "B", "C", "D", "E", "F", "G");
-var EdgecamProject2 = new SmarTeam("AA", "BB", "CC", "DD", "EE", "FF", "GG");
+// Create an instance of the box class
+var Box1 = new box(100,50,25);
+var Box2 = new box(50,30,25);
 
-alert(EdgecamProject1.WorkingFolder + "\n" + EdgecamProject2.WorkingFolder);
+alert("Box1 = " + Box1.length + " x " + Box1.width + " x " + Box1.height + "\n" +
+	  "   Volume = " + Box1.volume + "\n" + 
+	  "   Area = " + Box1.area + "\n\n" +
+	  "Box2 = " + Box2.length + " x " + Box2.width + " x " + Box2.height + "\n" +
+	  "   Volume = " + Box2.volume + "\n" + 
+	  "   Area = " + Box2.area);
 
 
-function SmarTeam(WorkingFolder, ModelPath, ProgramNumber, PartNumber, RevisionNumber, RoutingNumber, Alternative, Machine, Material, PLMnumber) {
-	/// <summary>
-	/// SmarTeam class to store information sent out by SmarTeam to use in Edgecam.
-	/// </summary>
-	/// <param name="WorkingFolder">Folder path to the working folder</param>
-	/// <param name="ModelPath">path to the Catia assembly/part to be used in Edgecam</param>
-	/// <param name="ProgramNumber">Program number of the NC code</param>
-	/// <param name="PartNumber">Identification number for the part</param>
-	/// <param name="RevisionNumber">Revision of the part</param>
-	/// <param name="RoutingNumber"></param>
-	/// <param name="Alternative"></param>
-	this.WorkingFolder = WorkingFolder;
-	this.ModelPath = ModelPath;
-	this.ProgramNumber = ProgramNumber;
-	this.PartNumber = PartNumber;
-	this.RevisionNumber = RevisionNumber;
-	this.RoutingNumber = RoutingNumber;
-	this.Alternative = Alternative;
-	this.Machine = Machine;
-	this.Material = Material;
-	this.PLMnumber = PLMnumber;
-};
+function box(length,width,height) {
+	this.length = length;
+	this.width = width;
+	this.height = height;
+	this.volume = length * width * height;
+	this.area = (2*(length * width)) + (2*(width * height)) + (2*(height * length));
+}
