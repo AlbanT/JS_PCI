@@ -1,4 +1,4 @@
-saveFile("https://github.com/AlbanT/JS_PCI/blob/master/DownloadFile.js",NormalizeEnvironmentStrings("%USERPROFILE%\\Desktop\\DownloadFile.js"));
+saveFile("https://raw.githubusercontent.com/AlbanT/JS_PCI/master/DownloadFile.js",NormalizeEnvironmentStrings("%USERPROFILE%\\Desktop\\DownloadFile.js"));
 
 function saveFile(sSourceUrl, sDestFile) {
     var objXMLHTTP = new ActiveXObject("MSXML2.XMLHTTP");
