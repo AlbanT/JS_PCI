@@ -1,6 +1,17 @@
-saveFile("https://raw.githubusercontent.com/AlbanT/JS_PCI/master/DownloadFile.js",NormalizeEnvironmentStrings("%USERPROFILE%\\Desktop\\DownloadFile.js"));
+var URL = "https://raw.githubusercontent.com/AlbanT/JS_PCI/master/DownloadFile.js";
+var Destination = "%USERPROFILE%\\Desktop\\DownloadFile.js";
 
-function saveFile(sSourceUrl, sDestFile) {
+// convert %USERPROFILE% to C:/USERS/<USERNAME>/
+Destination = NormalizeEnvironmentStrings(Destination);
+
+DownloadFile(URL,Destination);
+
+function DownloadFile(sSourceUrl, sDestFile) {
+	/// <summary>
+	/// Downloads a file from http to a local folder
+	/// </summary>
+	/// <param name="sSourceUrl">URL to download</param>
+	/// <param name="sDestFile">Filename and location to save to</param>
     var objXMLHTTP = new ActiveXObject("MSXML2.XMLHTTP");
     objXMLHTTP.onreadystatechange=function() {
         if (objXMLHTTP.readyState === 4) {
