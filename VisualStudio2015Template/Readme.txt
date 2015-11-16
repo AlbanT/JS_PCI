@@ -1,0 +1,1 @@
+Place the ZIP file (Do not extract!!!) in ...\Documents\Visual Studio 2015\Templates\ProjectTemplates\EdgecamPCI.zip
