@@ -9,7 +9,7 @@
           <ControlHeight>138px</ControlHeight>
         </PictureControl>
         <Picture>
-          <File>hello-world.jpg</File>
+          <File>placeHolder.jpg</File>
         </Picture>
         <Modifier ID="1" Title="String">
           <Type>Text</Type>
@@ -28,16 +28,6 @@
             <Type>Checkbox</Type>
           </Modifier>
         </AdvancedDialog>
-        <TaskPane>
-          <Panel Title="TaskPane">
-            <Modifier ID="52" Title="Colour">
-              <Type>Colour</Type>
-            </Modifier>
-            <Modifier ID="53" Title="Style">
-              <Type>Style</Type>
-            </Modifier>
-          </Panel>
-        </TaskPane>
         </TabPage>
         <TabPage Title="other TabPage">
           <Modifier ID="100" Title="String">
