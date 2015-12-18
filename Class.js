@@ -17,3 +17,15 @@ function box(length,width,height) {
 	this.volume = length * width * height;
 	this.area = (2*(length * width)) + (2*(width * height)) + (2*(height * length));
 }
+
+function Point(X, Y, Z) {
+    /// <summary>
+    /// Cartesian point class
+    /// </summary>
+    /// <param name="X" type="type">X value</param>
+    /// <param name="Y" type="type">Y value</param>
+    /// <param name="Z" type="type">Z value</param>
+    this.X = X;
+    this.Y = Y;
+    this.Z = Z;
+};
