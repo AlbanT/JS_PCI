@@ -32,12 +32,13 @@ var gdh2 = InitDigInfo();
 
 var nRet2 = AskDigInfo("Pick a Arc", gdh2, _ENTITYDIG, _ETYPE_ARC, "", _FALSE);
 
-if (nRet == _FINISH) {
+if (nRet2 == _FINISH) {
+	// user pressed RMB without selecting anything
 	MessageBox(_MB_ICONERROR, "Invalid input!");
 }
 else {
 	QueryDigInfo(gdh2,0);
 	var arc=GetPCIVariable("&ENTNO");
 	FreeDigInfo(gdh2);
-	Display("arc" + arc + "\\");
+	alert("arc = " + arc + "\\");
 }
