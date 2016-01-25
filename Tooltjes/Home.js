@@ -1,0 +1,25 @@
+/// <reference path="c:\program files (x86)\vero software\edgecam 2016 r1\cam\PCI\pci-vsdoc.js" />
+/*	Home.js
+
+Programmer		:	ATilanus
+Company			:	
+Version			:	1/25/2016 11:39:56 AM
+	
+Description		:	Combines an isometric view with a zoom maximize
+	
+Disclaimer		:	THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+
+cmdView = InitCommand(1, 668); // init view
+cmdZoom = InitCommand(4, 6); // init zoom
+
+ClearMods(cmdZoom); // clear all modifiers for Zoom
+
+SetModifier(cmdView, 217, "Isometrisch|6"); // Iso view
+SetModifier(cmdZoom, 8, "<Yes>"); // Zoom maximize
+
+ExecCommand(cmdZoom, -1); // exec zoom
+ExecCommand(cmdView, -1); // exec view
+
+
+
