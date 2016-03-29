@@ -15,6 +15,9 @@ Disclaimer		:	THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTOR
 */
 /// <reference path="c:\program files (x86)\planit\edgecam 2013 r1\cam\PCI\pci-vsdoc.js" />
 
+// create 100 randomly placed points
+var startEntitiy = Draw_100_random_points();
+
 // initialize Excel
 var objExcel = new ActiveXObject("Excel.Application");
 
@@ -27,12 +30,38 @@ var objWorkbook = objExcel.Workbooks.Add;
 // Add a new worksheet to the Excel file
 var objWorksheet = objWorkbook.Worksheets(1);
 
-for (var i = 90; i <= 166; i++) {
-    Query(i, true);
-    var Xpos = GetPCIvariable("&XEND");
-    var Ypos = GetPCIvariable("&YEND");
+// startrow in Excel
+var j = 1;
 
-    objExcel.Cells(i-89, 1).Value = Xpos;
-    objExcel.Cells(i-89, 2).Value = Ypos;
+// Retrieve location for all points and place in Excelsheet
+for (var i = startEntitiy; i < startEntitiy+100; i++) {
+    Query(i, true);
+    var Xpos = GetPCINumber("&XSTART");
+    var Ypos = GetPCINumber("&YSTART");
+
+    objExcel.Cells(j, 1).Value = Xpos;
+    objExcel.Cells(j, 2).Value = Ypos;
+	j++;
+}
+
+//objExcel.Application.Quit();
+
+function Draw_100_random_points(){
+	var startEntitiy = GetPCINumber("&NEXTENT");
+	var min = -100;
+	var max = 100;
+	for (i=0;i<100;i++) {
+		cmd1 = InitCommand(2, 36);
+		ClearMods(cmd1);
+		SetModifier(cmd1, 1, "Blauw|2");
+		SetModifier(cmd1, 3, "Geometrie");
+		SetModifier(cmd1, 2, "Massief|0");
+		gdh1 = InitDigInfo();
+		AddFreeDig(gdh1, "X"+Math.floor(Math.random()*(max-min+1)+min)+"Y"+Math.floor(Math.random()*(max-min+1)+min));
+		AddFinishDig(gdh1 , _FINISH);
+		cmdret = ExecCommand(cmd1, gdh1);
+		FreeDigInfo(gdh1);
+	}
+	return startEntitiy;
 }
 
