@@ -218,8 +218,8 @@ function Indexeren(CPLname) {
 	SetModifier(cmd0, 208, "Kortste|0");
 	SetModifier(cmd0, 212, "Absoluut|1");
 	SetModifier(cmd0, 244, CPLname);
-	SetModifier(cmd0, 195, "Radius|3");
-	SetModifier(cmd0, 198, MajorRad + Clearance);
+	//SetModifier(cmd0, 195, "Radius|3");
+	//SetModifier(cmd0, 198, MajorRad + Clearance);
 	nRet = ExecCommand(cmd0, -1);
 }
 
