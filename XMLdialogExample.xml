@@ -16,9 +16,18 @@
         </Modifier>
         <Modifier ID="2" Title="radio button">
           <Type>Radio</Type>
+		  <Picture>
+          <File>part_off_rear_face.jpg</File>
+        </Picture>
+		<Picture>
+          <File>tool/bull_nose.png</File>
+        </Picture>
         </Modifier>
         <Modifier ID="3" Title="checkbox">
           <Type>Check</Type>
+		  <Picture>
+          <File>right_hand_thread.jpg</File>
+        </Picture>
         </Modifier>
         <Modifier ID="5" Title="a seperator">
           <Type>Separator</Type>
