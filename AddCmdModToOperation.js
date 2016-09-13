@@ -19,7 +19,8 @@ var OpID = InitOperation("Roughing Strategy", "", 0);
 var nOpRet = DoOperationMods(OpID);
 
 if(nOpRet!=_FINISH) {
-    alert("User canceled the operation");       
+    alert("User canceled the operation"); 
+	FreeCommand(CmdTstore);  // release initialized command
     }
 else {
     GetModifier(CmdTstore, 180, "$StrategyToolName");
