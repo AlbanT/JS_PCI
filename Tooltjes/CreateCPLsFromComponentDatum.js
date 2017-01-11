@@ -21,7 +21,7 @@ var NrOfSolids = Solids.length;
 // build the listbox
 var ListCPLname = "Solid^";
 for (i = 0; i < NrOfSolids; i++) {
-    ListCPLname = ListCPLname + Solids[i].substr(0, Solids[i].indexOf("|")) + "^";
+    ListCPLname = ListCPLname + Solids[i].substr(0, Solids[i].lastIndexOf("|")) + "^";
 }
 AddUserModToOperation(hOp, "_List_CompCPL", ListCPLname, "", 0, "");
 
@@ -34,60 +34,64 @@ AddUserModToOperation(hOp, "_Check_Back", GetPCIVariable("&BACK"), "^Divider2", 
 var nOpRet = DoOperationMods(hOp);
 FreeOperation(hOp);
 
-// extract the instance from the Solids array to use in de FindEntityNo()
-var SolidID = Solids[GetPCINumber("_List_CompCPL") - 1].substr(Solids[GetPCINumber("_List_CompCPL") - 1].indexOf("|"));
+if (nOpRet == _FINISH) {
 
-// contruct the name of the base ComponentDatum
-var CPL = GetPCINumber("_List_CompCPL") - 1;
-if (CPL == 0) {
-    CPL = "ComponentDatum";
+    // extract the instance from the Solids array to use in de FindEntityNo()
+    var SolidID = Solids[GetPCINumber("_List_CompCPL") - 1].substr(Solids[GetPCINumber("_List_CompCPL") - 1].lastIndexOf("|"));
+
+    // contruct the name of the base ComponentDatum
+    var CPL = GetPCINumber("_List_CompCPL") - 1;
+    if (CPL == 0) {
+        CPL = "ComponentDatum";
+    }
+    else {
+        CPL = "ComponentDatum" + "." + CPL;
+    }
+
+    // remember the current CPL to be able to restore it afterwards
+    var CurrentCPL = GetPCIVariable("&CPL");
+
+    // create the CPL's
+    if (GetPCIVariable("_Check_Front") == true) {
+        CreateCPL(CPL + "." + GetPCIVariable("&FRONT"), 0, 0, 90, CPL);
+        SetPCIVariable("_Check_Front", false);
+    }
+
+    if (GetPCIVariable("_Check_Right") == true) {
+        CreateCPL(CPL + "." + GetPCIVariable("&RIGHT"), 90, 90, 0, CPL);
+        SetPCIVariable("_Check_Right", false);
+    }
+
+    if (GetPCIVariable("_Check_Left") == true) {
+        CreateCPL(CPL + "." + GetPCIVariable("&LEFT"), 90, -90, 0, CPL);
+        SetPCIVariable("_Check_Left", false);
+    }
+
+    if (GetPCIVariable("_Check_Bottom") == true) {
+        CreateCPL(CPL + "." + GetPCIVariable("&BOTTOM"), 180, 0, 0, CPL);
+        SetPCIVariable("_Check_Bottom", false);
+    }
+
+    if (GetPCIVariable("_Check_Back") == true) {
+        CreateCPL(CPL + "." + GetPCIVariable("&BACK"), -90, 0, 0, CPL);
+        SetPCIVariable("_Check_Back", false);
+    }
+
+    // restore the original CPL
+    ActivateCPL(CurrentCPL);
+
 }
-else {
-    CPL = "ComponentDatum" + "." + CPL;
-}
-
-// remember the current CPL to be able to restore it afterwards
-var CurrentCPL = GetPCIVariable("&CPL");
-
-// create the CPL's
-if (GetPCIVariable("_Check_Front") == true) {
-    CreateCPL(CPL + "." + GetPCIVariable("&FRONT"), 0, 0, 90, CPL);
-    SetPCIVariable("_Check_Front", false);
-}
-
-if (GetPCIVariable("_Check_Right") == true) {
-    CreateCPL(CPL + "." + GetPCIVariable("&RIGHT"), 90, 90, 0, CPL);
-    SetPCIVariable("_Check_Right", false);
-}
-
-if (GetPCIVariable("_Check_Left") == true) {
-    CreateCPL(CPL + "." + GetPCIVariable("&LEFT"), 90, -90, 0, CPL);
-    SetPCIVariable("_Check_Left", false);
-}
-
-if (GetPCIVariable("_Check_Bottom") == true) {
-    CreateCPL(CPL + "." + GetPCIVariable("&BOTTOM"), 180, 0, 0, CPL);
-    SetPCIVariable("_Check_Bottom", false);
-}
-
-if (GetPCIVariable("_Check_Back") == true) {
-    CreateCPL(CPL + "." + GetPCIVariable("&BACK"), -90, 0, 0, CPL);
-    SetPCIVariable("_Check_Back", false);
-}
-
-// restore the original CPL
-ActivateCPL(CurrentCPL);
 
 function NrOfIndividualSolids() {
     var NrOfSolids = GetPCIVariable("&NUMBEROFSOLIDS");
     var prevSolidName = "";
     var IndividualSolids = [];
-
+    var j = 0;
     // loop thru the Edgecam DB
     for (i = 0; i < NrOfSolids; i++) {
         // find each solids
         Query(FindEntityNo(_FINDENTNO_FROM_BASEENT, 161, i + 1, 0), true);
-
+        
         // determine if it is a newly found solid
         if (GetPCIVariable("&SOLIDPATH") != prevSolidName) {
             prevSolidName = GetPCIVariable("&SOLIDPATH");
@@ -95,8 +99,15 @@ function NrOfIndividualSolids() {
             // extract the plain filename from the filepath
             var FSO = new ActiveXObject("Scripting.FileSystemObject");
 
+            var tempCPLname = "ComponentDatum";
+            if (j > 0) {
+                tempCPLname = tempCPLname + "." + j;
+            }
+            
+
             // add the solid to the array
-            IndividualSolids.push(FSO.GetFileName(GetPCIVariable("&SOLIDPATH")) + "|" + (i + 1));
+            IndividualSolids.push(tempCPLname + " (" + FSO.GetFileName(GetPCIVariable("&SOLIDPATH")) + ")"  + "|" + (i + 1));
+            j++;
         }
     }
 
