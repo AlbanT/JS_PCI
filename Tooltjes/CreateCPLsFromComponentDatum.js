@@ -53,7 +53,7 @@ if (nOpRet == _FINISH) {
 
     // create the CPL's
     if (GetPCIVariable("_Check_Front") == true) {
-        CreateCPL(CPL + "." + GetPCIVariable("&FRONT"), 0, 0, 90, CPL);
+        CreateCPL(CPL + "." + GetPCIVariable("&FRONT"), 90, 0, 0, CPL);
         SetPCIVariable("_Check_Front", false);
     }
 
