@@ -6,20 +6,9 @@ SetPCIVariable("_listVar", "2");     // set to second item in the list
 SetPCIVariable("$_textVar", "This is text");
 SetPCIVariable("$_mtextVar", "");
 
-nret = AskBox(["Real", 
-               "Integer", 
-			   "List^Option1^Option2^Option3", 
-			   "Mill Type", 
-			   "String", 
-			   "Multi-line Text", 
-			   "Check Box"], 
-			  ["_realVar", 
-			   "_intVar", 
-			   "_listVar",
-			   "_LIST5",
-			   "$_textVar",
-			   "$_mtextVar",
-			   "_checkVar"]);
+nret = AskBox(["Real", "Integer", "List^Option1^Option2^Option3", "String", "Multi-line Text", "Check Box"], 
+			  ["_realVar", "_intVar", "_listVar", "$_textVar", "$_mtextVar", "_checkVar"]
+			);
 
 if (nret == _FINISH) {
 	// Get the PCI variables set by the AskBox (required)
