@@ -9,7 +9,6 @@ alert("Box1 = " + Box1.length + " x " + Box1.width + " x " + Box1.height + "\n" 
 	  "   Volume = " + Box2.volume + "\n" + 
 	  "   Area = " + Box2.area);
 
-
 function box(length,width,height) {
 	this.length = length;
 	this.width = width;

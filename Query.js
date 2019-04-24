@@ -13,16 +13,13 @@ nRet = Query("89", _TRUE); // 89 is the entity number
 		AddMessageString(hMsg, "Elementnaam = " + GetPCIvariable("&ENAME")); 
 		AddMessageString(hMsg, "Elementnummer = " + GetPCIvariable("&ENTNO")); 
 		AddMessageString(hMsg, "Startpunt = X" + GetPCIvariable("&XSTART") + 
-						 " Y" + GetPCIvariable("&YSTART") + 
-								   " Z" + GetPCIvariable("&ZSTART")); 
+			" Y" + GetPCIvariable("&YSTART") + " Z" + GetPCIvariable("&ZSTART")); 
 		AddMessageString(hMsg, "Eindpunt = X" + GetPCIvariable("&XEND") + 
-										 " Y" + GetPCIvariable("&YEND") + 
-										 " Z" + GetPCIvariable("&ZEND")); 
+			" Y" + GetPCIvariable("&YEND") + " Z" + GetPCIvariable("&ZEND")); 
 
 		if (GetPCIvariable("&ETYPE") == 2) { //only available for arcs
 			AddMessageString(hMsg, "Middelpunt = X" + GetPCIvariable("&XCENTRE") + 
-											   " Y" + GetPCIvariable("&YCENTRE") + 
-											   " Z" + GetPCIvariable("&ZCENTRE")); 
+				" Y" + GetPCIvariable("&YCENTRE") + " Z" + GetPCIvariable("&ZCENTRE")); 
 			AddMessageString(hMsg, "Radius = " + GetPCIvariable("&RADIUS")); 
 		}
 
