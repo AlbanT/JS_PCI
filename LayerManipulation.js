@@ -61,3 +61,19 @@ function ShowHideLayer(LayerName, Visible) {
 	ExecCommand(cmd1, -1);
 }
 
+function DeleteLayer(LayerName) {
+    /// <summary>
+    /// Delete a layer
+    /// </summary>
+    /// <param name="LayerName" type="string">Name of the layer</param>
+
+	// Initialising command:- Verwijder Lagen
+	var cmd1 = InitCommand(50, 136); 
+	ClearMods(cmd1); 
+	// Setting modifier 'Naam'
+	SetModifier(cmd1, 51, LayerName); 
+	var cmdret = ExecCommand(cmd1, -1); 
+}
+
+
+

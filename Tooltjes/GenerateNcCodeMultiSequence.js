@@ -21,7 +21,7 @@ Disclaimer		:	THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTOR
 // ANCHOR                          DECLARATIONS
 //---------------------------------------------------------------
 
-var DefaultNcOutputFolder = "F:\\TIJDELIJK\\MultipleSequences"
+var DefaultNcOutputFolder = "F:\\TIJDELIJK"
 var retVal = _FINISH;
 
 

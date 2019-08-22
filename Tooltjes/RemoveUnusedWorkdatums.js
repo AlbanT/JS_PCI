@@ -2,10 +2,6 @@
 // Adapted from a version that Patrick Mercier posted on the eSupport forum
 // This JS PCI will delete all workdatums which are not being used in the current PPF
 
-
-//CPL
-// JavaScript Document
-
 //debugger;
 
 nRet = ErrorLevel (0);
@@ -23,17 +19,20 @@ for (var x in arrayCPL) {
 	// skip the first one as it is not a CPL 
 	if (x>0){
 		// remove the CPL's
-		EffaceCPL(cpl);
+		var result = DeleteCPL(cpl);
+		if (result = -3){
+			Display("workdatum '" + cpl + "' is deleted.\n");
+		}
 	}
 	
 }
 
-function EffaceCPL(strcpl)
+function DeleteCPL(strcpl)
 {
-// Initialising command:- Workplane
-cmd1 = InitCommand(10, 61);
-ClearMods(cmd1);
-// Setting modifier 'Name'
-SetModifier(cmd1, 244, strcpl);
-cmdret=ExecCommand(cmd1, -1);
+	// Initialising command:- Workplane
+	cmd1 = InitCommand(10, 61);
+	ClearMods(cmd1);
+	// Setting modifier 'Name'
+	SetModifier(cmd1, 244, strcpl);
+	return cmdret=ExecCommand(cmd1, -1);  // cmdret = -3 indicates a deleted CPL
 }
