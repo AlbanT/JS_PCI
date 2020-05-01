@@ -1,4 +1,4 @@
-/// <reference path="C:\Program Files\Vero Software\Edgecam 2018 R2\cam\PCI\pci-vsdoc.js" />
+/// <reference path="f:\Program Files\Vero Software\Edgecam 2018 R2\cam\PCI\pci-vsdoc.js" />
 /*
         _______ _____   ______    _            _____ _______ 
      /\|__   __/ ____| |  ____|  | |          |_   _|__   __|
@@ -11,7 +11,7 @@
 TODO Fill in these parameters:									
 Programmer		:	Alban Tilanus (support@ats-edgeIT.com)
 Company			:	ATS EdgeIT
-Version			:	20190523
+Version			:	20200430
 	
 Description		:	This script generates NC code for all sequences in the currently opened PPF file. It saves it in a specified folder (var DefaultNcOutputFolder) and names them PpfFileName + "_" + SequenceName + ".nc".
 	
@@ -30,11 +30,6 @@ Number.prototype.pad = function(size) {
   }
 
 
-// default root folder for NC-code
-var DefaultNcOutputFolder = GetFolderPath(GetPCIVariable("&PARTNAME"));
-
-// set the starting value for retVal
-var retVal = _FINISH;
 
 //---------------------------------------------------------------
 // ANCHOR                         MAIN PROGRAM
@@ -42,35 +37,26 @@ main();
 //---------------------------------------------------------------
 
 function main() {
-	var i=0;
-	while (retVal == _FINISH) {
-		// loop thru this loop until no more machining sequences are found (retVal != _FINISH when the machining sequence doesn't exist).
+	
+	// extract the name of the ppf file without the file path and file extension
+	var PpfFileName = GetPCIVariable("&PARTNAMENOPATH");
 
-		// activate the machining sequence (retVal = _FINISH on success)
-		retVal = ActivateSequence(i);
+	// extract the name of the current machining sequence
+	var SequenceName = GetPCIVariable("&SEQUENCENAME");
 
-		if (retVal == _FINISH) {
-			// extract the name of the ppf file without the file path and file extension
-			var PpfFileName = GetPCIVariable("&PARTNAMENOPATH");
+	var PpfFolderName = GetFolderPath(GetPCIVariable("&PARTNAME"));
 
-			// extract the name of the current machining sequence
-			var SequenceName = GetPCIVariable("&SEQUENCENAME");
+	AskBox(["Bestandsnaam","Open in editor"],["$NcFilename", "_check_Editor"]);
 
-			// create a new folder with the same name as the ppf file
-			CreateFolder(DefaultNcOutputFolder + "\\" + "NC-code");
+	var NcFilename = GetPCIVariable("$NcFilename");
 
-			var prefix = (i+1).pad(2)
 
-			// create the file name for the NC-code
-			var NcFileName = DefaultNcOutputFolder + "\\" + "NC-code" + "\\" + prefix + "_" + PpfFileName + "_" + SequenceName + ".nc";
+	// create the file name for the NC-code
+	var NcFileName = PpfFolderName  + NcFilename;
 
-			// generate the NC-code
-			GenerateCNC(NcFileName)
-		}
-
-		// increment to the next machining sequence
-		i++;
-	}
+	// generate the NC-code
+	GenerateCNC(NcFileName,GetPCINumber("_check_Editor"),CurrentToolkit());
+	
 }
 
 //---------------------------------------------------------------
@@ -85,7 +71,18 @@ function ActivateSequence(index){
 	return ExecCommand(cmd1, -1); 
 }
 
-function GenerateCNC(filename) {
+function CurrentToolkit() {
+	var cmd1 = InitCommand(16, 62);
+	GetModifier(cmd1, 249, "$CurrentToolkit");
+	FreeCommand(cmd1);
+
+	return GetPCIVariable("$CurrentToolkit");
+}
+
+function GenerateCNC(filename,CheckEditor,Jobname) {
+	if (Jobname == undefined){
+		Jobname = "";
+	}
 	// Initialising command:- Generate CNC Code
 	var cmd1 = InitCommand(19, 666); 
 	ClearMods(cmd1); 
@@ -93,6 +90,14 @@ function GenerateCNC(filename) {
 	SetModifier(cmd1, 14, filename); 
 	// Setting modifier 'Operation Names'
 	SetModifier(cmd1, 251, "<Yes>"); 
+
+	if (CheckEditor==1){
+		// Setting modifier 'Openen in Editor'
+		SetModifier(cmd1, 253, "<Yes>");
+	}
+ 
+	// Setting modifier 'Job naam^Bladeren...'
+	SetModifier(cmd1, 249, Jobname); 
 	var cmdret = ExecCommand(cmd1, -1);
 }
 
