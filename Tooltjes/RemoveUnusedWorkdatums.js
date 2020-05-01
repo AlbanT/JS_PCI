@@ -20,7 +20,7 @@ for (var x in arrayCPL) {
 	if (x>0){
 		// remove the CPL's
 		var result = DeleteCPL(cpl);
-		if (result = -3){
+		if (result == -3){
 			Display("workdatum '" + cpl + "' is deleted.\n");
 		}
 	}
