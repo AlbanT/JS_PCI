@@ -1,28 +1,77 @@
-﻿/// <reference path="c:\program files (x86)\planit\edgecam 2013 r1\cam\PCI\pci-vsdoc.js" />
-/*	Regenerate Timer.js
-
-Programmer		:	A.S. Tilanus (alban@wia.nl)
-Company			:	Widenhorn Industriële Automatisering
-Version			:	26/02/2013
+﻿/// <reference path="F:\Program Files\Vero Software\Edgecam 2020.0\cam\PCI\pci-vsdoc.js" />
+/*
+TODO Fill in these parameters:									
+Programmer		:	<PROGRAMMER> (<PROGRAMMER EMAIL>)
+Company			:	<COMPANY>
+Version			:	<VERSION>
 	
-Description		:	Regenerate the complete sequence and display the amount of time it took to complete regeneration
+Description		:	<DESCRIPTION>
 	
-Prerequisites	:	Edgecam
+Disclaimer		:	THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.	
 
-Keywords		:	Regenerate; Sequence; Time;
+License		:	"THE BEER-WARE LICENSE" (Revision 42): <PROGRAMMER EMAIL> wrote this file. As long as you retain this notice you can do whatever you want with this stuff. If we meet some day, and you think this stuff is worth it, you can buy me a beer in return.
+ */
+//---------------------------------------------------------------
+// ANCHOR                          DECLARATIONS
+//---------------------------------------------------------------
 
-Disclaimer		:	THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
 
-ClearCache();
-var StartTime = now();
-RegenerateSequence();
-var EndTime = now();
+//---------------------------------------------------------------
+// ANCHOR                         MAIN PROGRAM
+main();
+//---------------------------------------------------------------
 
-var RegenTime = DateDiff(StartTime, EndTime);
-Display("regeneration took " + RegenTime + "\\");
-alert("regeneration took " + RegenTime);
+function main() {
+	SetPCIVariable("_check_background", 0);
+    SetPCIVariable("_check_cache", 1);
+    SetPCIVariable("_int_iterations", 1);
+    nRet = AskBox(["delete cache","wait for background processes","nr of iterations"], ["_check_cache", "_check_background", "_int_iterations"]);
+    Delete("_check_cache");
+    Delete("_check_background");
+    Delete("_int_iterations");
 
+    if (nRet != _FINISH) {
+        return false;
+    }
+
+    var RegenTimes = new Array();
+    RegenTimes[0] = 0;
+
+    for (i=1;i<=GetPCINumber("_int_iterations");i++){
+        if (GetPCINumber("_check_cache")== 1) {
+            ClearCache();
+        }
+        var StartTime = now();
+        RegenerateSequence();
+    
+        if (GetPCINumber("_check_background")== 1) {
+            Display("Waiting for background processes...\\");
+            while (GetPCINumber("&PROCESSESACTIVE")==1) {
+        
+            }
+        }
+        var EndTime = now();
+
+        RegenTimes[0] = RegenTimes[0] + DateDiffSeconds(StartTime, EndTime)
+        RegenTimes[i] = DateDiffSeconds(StartTime, EndTime);
+
+        Display(RegenTimes[i] + "\t" + RegenTimes[0] + "\n");
+        Display(i + ": Done!\\");
+    }
+    
+    var report = "--- Regenerate Timer ----\n";
+    for (i=1; i<=GetPCINumber("_int_iterations"); i++){
+        report = report + "\n\t" + i + ": " + msToTime(RegenTimes[i]*1000)
+    }
+    report = report + "\n\t" + "average regeneration time: " + msToTime((RegenTimes[0] / GetPCINumber("_int_iterations"))*1000) + "\n\n" + "-------------------------"
+    
+    Display(report + "\n");
+    alert(report);
+}
+
+//---------------------------------------------------------------
+// ANCHOR                         FUNCTIONS
+//---------------------------------------------------------------
 
 function RegenerateSequence() {
 	/// <summary>
@@ -83,7 +132,19 @@ function DateDiff(date1, date2) {
     var result = date2 - date1;
 
     return msToTime(result);
-   }
+}
+
+function DateDiffSeconds(date1, date2) {
+	/// <summary>
+	/// Calulate the time between 2 date1 and date2
+	/// </summary>
+	/// <param name="date1">startDate as Date()</param>
+	/// <param name="date2">endDate as Date()</param>
+	/// <returns type="">amount of time between date1 and date2</returns>
+    var result = date2 - date1;
+
+    return result/1000;
+}
 
 
    function msToTime(duration) {
@@ -105,6 +166,7 @@ function DateDiff(date1, date2) {
    }
 
 function ClearCache() {
+    Response(1);
     Display("Clearing cache...\\");
     // Initialising commando:- Tijdelijke bestanden wissen
     cmd1 = InitCommand(22, 151);
@@ -113,6 +175,7 @@ function ClearCache() {
     cmdret = ExecCommand(cmd1, gdh1);
     FreeDigInfo(gdh1);
     Display("Cache cleared\\");
+    Response(0);
    }
 
 

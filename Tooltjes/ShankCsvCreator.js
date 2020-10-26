@@ -1,4 +1,4 @@
-﻿/// <reference path="c:\program files (x86)\vero software\edgecam 2016 r1\cam\ShankCsvCreator\pci-vsdoc.js" />
+﻿/// <reference path="f:\program files\hexagon\edgecam 2021.0\cam\pci\pci-vsdoc.js" />
 /*	ShankCsvCreator.js
 
 Programmer		:	A.S. Tilanus (alban.tilanus@ATS-global.com)
