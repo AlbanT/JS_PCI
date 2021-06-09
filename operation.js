@@ -11,4 +11,4 @@ var hOp = InitOperation("Operation name", "", 0);
 var nOpRet = DoOperationMods(hOp);
 FreeOperation(hOp);
 
-CommitOperation(hOp,[]]);
+CommitOperation(hOp,[]);
