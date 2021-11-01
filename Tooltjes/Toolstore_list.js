@@ -66,7 +66,7 @@ function main() {
 
 	// process the dialog result
 	if (nOpRet == _FINISH){
-		var TstoreId = GetPCINumber("_List_Tstore_Id");
+		var TstoreId = GetPCINumber("_List_Tstore_Id") - 1;
 
 		SetTstore(
 			Tstores.Tstore[TstoreId].Server, 
