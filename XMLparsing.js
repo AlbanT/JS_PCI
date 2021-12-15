@@ -1,4 +1,5 @@
-var text, xmlDoc;
+/* list of most important node types from https://www.w3schools.com/XML/dom_nodes_info.asp */
+var nodeType = {Element: 1, Attribute: 2, Text: 3, Comment: 8, Document: 9};
 
 /* determine the folder this pci is executed from */
 var App_path = GetPCIVariable("$!textPciName").substring(0, GetPCIVariable("$!textPciName").lastIndexOf("\\") + 1);
@@ -6,19 +7,24 @@ var App_path = GetPCIVariable("$!textPciName").substring(0, GetPCIVariable("$!te
 /* declare the location of the XML file */
 var myFile = "books.xml";
 
-parseXML(); // execute the function
+/* load the XML file */
+xmlDoc = loadXML(App_path, myFile);
+
+if (xmlDoc.error != 0){
+	alert("Error in parsing XML at line " + xmlDoc.error.line  +":\n" + xmlDoc.error.reason );
+}
+else {
+	readXmlUsingTags(xmlDoc.xml);
+
+	readXmlByLoopingThruNodes(xmlDoc.xml);
+}
 
 /*##################################################*/
 
-function parseXML(){
-	/* list of most important node types from https://www.w3schools.com/XML/dom_nodes_info.asp */
-	var nodeType = {Element: 1, Attribute: 2, Text: 3, Comment: 8, Document: 9};
-
-
-	/* read the contents of the XML file like any other textfile */
+function loadXML(folder, xmlfile){
 	fso = new ActiveXObject("Scripting.FileSystemObject");
 	ForReading = 1;
-	ts = fso.OpenTextFile(App_path + myFile, ForReading);
+	ts = fso.OpenTextFile(folder + xmlfile, ForReading);
 	text  = "";
 	while (!ts.AtEndOfStream)
 	{
@@ -31,16 +37,37 @@ function parseXML(){
 	xmlDoc.async = false;
 	xmlDoc.loadXML(text); 
 
-	/* report errors */
+	/* report errors 
 	if (xmlDoc.parseError.errorCode != 0){
 		display(
 			"Error Code: " + xmlDoc.parseError.errorCode + "\n" +
 			"Error Reason: " + xmlDoc.parseError.reason +
 			"Error Line: " + xmlDoc.parseError.line + "\n"
 		);
-		return false;
-	}
+		return ;
+	}*/
 
+	var output;
+	if (xmlDoc.parseError.errorCode != 0){
+		var myErr = xmlDoc.parseError;
+		output = {
+			 xml: "",
+			 error: {code: myErr.errorCode, reason: myErr.reason, line: myErr.line}
+		  }
+  }
+  else {
+		output = {
+			 xml: xmlDoc,
+			 error: 0
+		  }
+  }
+
+  return output;
+
+}
+
+
+function readXmlUsingTags(xmlDoc){
 	/* get all nodes of the type book */
 	var books = xmlDoc.getElementsByTagName("book");
 	display("found " + books.length + " titles in " + myFile + ":" + "\n");
@@ -59,6 +86,15 @@ function parseXML(){
 			display("******************************************\n");
 		}
 	}
+}
+
+function readXmlByLoopingThruNodes(xmlDoc){
+	/* 
+	note that <?xml version="1.0" encoding="UTF-8"?> is xmlDoc.childNodes[0]
+	and <bookstore> is xmlDoc.childNodes[1] 
+	and <book> is the childnode of <bookstore> a.k.a. xmlDoc.childNodes[1].childNodes
+	*/
+	var books = xmlDoc.childNodes[1].childNodes;
 
 	display("**** loop thru all the books *************\n");
 	for (i = 0; i < books.length; i++) { 
@@ -72,7 +108,6 @@ function parseXML(){
 			display("\t\t" + bookAttributes[k].nodeName + ":\t" + bookAttributes[k].nodeValue + "\n");
 		}
 		
-
 		for (j = 0; j < books[i].childNodes.length; j++){
 			// for every childnode for the book
 			display("\t" + books[i].childNodes[j].nodeName + ":\t" + books[i].childNodes[j].childNodes[0].nodeValue + "\n");
@@ -88,5 +123,5 @@ function parseXML(){
 		}
 	display("******************************************\n");
 	}
-	return true;
 }
+
