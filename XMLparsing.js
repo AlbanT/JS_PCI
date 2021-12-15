@@ -8,7 +8,7 @@ var App_path = GetPCIVariable("$!textPciName").substring(0, GetPCIVariable("$!te
 var myFile = "books.xml";
 
 /* load the XML file */
-xmlDoc = loadXML(App_path, myFile);
+xmlDoc = loadXML(App_path + myFile);
 
 if (xmlDoc.error != 0){
 	alert("Error in parsing XML at line " + xmlDoc.error.line  +":\n" + xmlDoc.error.reason );
@@ -21,10 +21,11 @@ else {
 
 /*##################################################*/
 
-function loadXML(folder, xmlfile){
+function loadXML(xmlfile){
+	/* read textfile */
 	fso = new ActiveXObject("Scripting.FileSystemObject");
 	ForReading = 1;
-	ts = fso.OpenTextFile(folder + xmlfile, ForReading);
+	ts = fso.OpenTextFile(xmlfile, ForReading);
 	text  = "";
 	while (!ts.AtEndOfStream)
 	{
@@ -37,33 +38,26 @@ function loadXML(folder, xmlfile){
 	xmlDoc.async = false;
 	xmlDoc.loadXML(text); 
 
-	/* report errors 
-	if (xmlDoc.parseError.errorCode != 0){
-		display(
-			"Error Code: " + xmlDoc.parseError.errorCode + "\n" +
-			"Error Reason: " + xmlDoc.parseError.reason +
-			"Error Line: " + xmlDoc.parseError.line + "\n"
-		);
-		return ;
-	}*/
-
+	/* build output object */
 	var output;
 	if (xmlDoc.parseError.errorCode != 0){
 		var myErr = xmlDoc.parseError;
 		output = {
 			 xml: "",
-			 error: {code: myErr.errorCode, reason: myErr.reason, line: myErr.line}
-		  }
-  }
-  else {
+			 error: {
+				code: myErr.errorCode, 
+				reason: myErr.reason,
+				line: myErr.line
+			}
+		}
+	}
+	else {
 		output = {
 			 xml: xmlDoc,
 			 error: 0
-		  }
-  }
-
-  return output;
-
+		}
+	}
+	return output;
 }
 
 
