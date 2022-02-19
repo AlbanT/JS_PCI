@@ -7,3 +7,5 @@ Result = 1 - "x"; 			//Result = NaN = -1,#IND: NaN = Not A Number
 Result = false;
 var NewResult = String(Result);	//NewResult = "false"
 NewResult = Result.toString;	//NewResult = "false"
+alert(isNaN(123)); 				// false as 123 is a number
+alert(isNaN("hello"));			// true as hello is Not A Number
