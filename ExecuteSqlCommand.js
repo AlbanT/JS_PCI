@@ -1,15 +1,15 @@
 //debugger; // start the visual studio debugger
 
-/** @type sql datatype { https://docs.microsoft.com/en-us/sql/ado/reference/ado-api/datatypeenum?view=sql-server-ver15} */
+/** @type sql datatype { https://docs.microsoft.com/en-us/sql/ado/reference/ado-api/datatypeenum?view=sql-server-ver15 } */
 var DataTypeEnum = { 
-	adBigInt: 20,
+	adBigInt: 20, 	
 	adBinary: 128,
-	adBoolean: 11,
+	adBoolean: 11,	
 	adBSTR: 8,
 	adChapter: 136,
-	adChar: 129,
+	adChar: 129,	
 	adCurrency: 6,
-	adDate:7,
+	adDate:7,	
 	adDBDate:133,
 	adDBTime:134,
 	adDBTimeStamp:135,
@@ -43,6 +43,36 @@ var DataTypeEnum = {
 	adWChar:130
 }
 
+/** @type sql datatype { mapping from the ADO api data types to the TSQL datatypes: https://documentation.help/adosql/adoprg02_294j.htm} */
+var SqlDataType = {
+	bigint: DataTypeEnum.adBigInt,
+	binary: DataTypeEnum.adBinary,
+	bit: DataTypeEnum.adBoolean,
+	char: DataTypeEnum.adChar,
+	datetime: DataTypeEnum.adDBTimeStamp,
+	decimal: DataTypeEnum.adNumeric,
+	float: DataTypeEnum.adDouble,
+	image: DataTypeEnum.adVarbinary,
+	int: DataTypeEnum.adInteger,
+	money: DataTypeEnum.adCurrency,
+	nchar: DataTypeEnum.adWChar,
+	ntext: DataTypeEnum.adWChar,
+	numeric: DataTypeEnum.adNumeric,
+	nvarchar: DataTypeEnum.adWChar,
+	real: DataTypeEnum.adSingle,
+	smalldatetime: DataTypeEnum.adTimeStamp,
+	smallint: DataTypeEnum.adSmallInt,
+	smallmoney: DataTypeEnum.adCurrency,
+	sql_variant: DataTypeEnum.adVariant,
+	sysname: DataTypeEnum.adWChar,
+	text: DataTypeEnum.adChar,
+	timestamp: DataTypeEnum.adBinary,
+	tinyint: DataTypeEnum.adVarbinary,
+	uniqueidentifier: DataTypeEnum.adGUID,
+	varbinary: DataTypeEnum.adVarbinary,
+	varchar: DataTypeEnum.adChar
+}
+
 /** @type sql parameter types { https://docs.microsoft.com/en-us/sql/ado/reference/ado-api/parameterdirectionenum?view=sql-server-ver15} */
 var ParameterDirectionEnum = {
 	adParamInput:1,
@@ -57,8 +87,8 @@ var CommandTypeEnum = {
 	//adCmdUnspecified: -1,
 	adCmdText:1,
 	adCmdTable:2,
-	adCmdStoredProc:4//,
-	//adCmdUnknown:8,
+	adCmdStoredProc:4
+	//,adCmdUnknown:8,
 	//adCmdFile:256,
 	//adCmdTableDirect:512
 }
@@ -135,12 +165,15 @@ var CommandTypeEnum = {
 			if (SQL_input.type == CommandTypeEnum.adCmdStoredProc || SQL_input.type == CommandTypeEnum.adCmdText || SQL_input.type == CommandTypeEnum.adCmdTable){
 				cmd.CommandType = CommandTypeEnum.adCmdText;
 
+alert(SQL_input.command.replace(/'/g, "''"));
+
+
 				switch (SQL_input.type){
 					case CommandTypeEnum.adCmdStoredProc:
 						cmd.CommandText = "SELECT name, system_type_name FROM sys.dm_exec_describe_first_result_set_for_object (OBJECT_ID('" + SQL_input.command + "'),NULL);";
 						break;
 					case CommandTypeEnum.adCmdText: 
-						cmd.CommandText = "SELECT name, system_type_name FROM sys.dm_exec_describe_first_result_set ('" + SQL_input.command + "',NULL,0);";
+						cmd.CommandText = "SELECT name, system_type_name FROM sys.dm_exec_describe_first_result_set ('" + SQL_input.command.replace(/'/g, "''") + "',NULL,0);";
 						break;
 					case CommandTypeEnum.adCmdTable: 
 						cmd.CommandText = "SELECT name, system_type_name FROM sys.dm_exec_describe_first_result_set ('SELECT * FROM " + SQL_input.command + "',NULL,0);";
