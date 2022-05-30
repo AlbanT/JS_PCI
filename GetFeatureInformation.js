@@ -1,4 +1,4 @@
-/// <reference path="c:\program files\vero software\edgecam 2017 r2\cam\PCI\pci-vsdoc.js" />
+/// <reference path="C:\Program Files\Hexagon\EDGECAM 2022.0\cam\PCI\pci-vsdoc.js" />
 
 /* https://esupport.ps.hexagonmi.com/edgecam/f/5-pci-javascript-pdi-plugins/59590/extracting-wireframe-from-feature-perimeter/291136 */
 
