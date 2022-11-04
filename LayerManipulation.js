@@ -49,16 +49,34 @@ function ShowHideLayer(LayerName, Visible) {
     /// <summary>
     /// Make a layer visible or invisible
     /// </summary>
-    /// <param name="LayerName" type="string">Name of the layer</param>
+    /// <param name="LayerName" type="string">Name of the layer. When set to undefined all layers are picked</param>
     /// <param name="Visible" type="boolean">true=1=visible and false=0=hide</param>
-
-	// Set Layer Visibility
-	cmd1 = InitCommand(50,724);
-	// Select the Layer
-	SetModifier(cmd1, 3, LayerName);
-	// Show = 1, Hide = 0;
-	SetModifier(cmd1, 42, Visible);
-	ExecCommand(cmd1, -1);
+	
+	if (LayerName == undefined) {
+		// Initialising command:- Layers
+		var cmd1 = InitCommand(16, 73); 
+		ClearMods(cmd1); 		
+		if (Visible == 1){
+			// Setting modifier 'All'
+			SetModifier(cmd1, 42, "<Yes>"); 
+		}
+		else {
+			// Setting modifier 'None'
+			SetModifier(cmd1, 50, "<Yes>"); 
+		}
+		// Setting modifier 'Redraw'
+		SetModifier(cmd1, 138, "<Yes>"); 
+		ExecCommand(cmd1, -1); 
+	}
+	else {
+		// Set Layer Visibility
+		cmd1 = InitCommand(50,724);
+		// Select the Layer
+		SetModifier(cmd1, 3, LayerName);
+		// Show = 1, Hide = 0;
+		SetModifier(cmd1, 42, Visible);
+		ExecCommand(cmd1, -1);
+	}
 }
 
 function DeleteLayer(LayerName) {

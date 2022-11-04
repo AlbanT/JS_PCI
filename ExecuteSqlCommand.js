@@ -165,7 +165,7 @@ var CommandTypeEnum = {
 			if (SQL_input.type == CommandTypeEnum.adCmdStoredProc || SQL_input.type == CommandTypeEnum.adCmdText || SQL_input.type == CommandTypeEnum.adCmdTable){
 				cmd.CommandType = CommandTypeEnum.adCmdText;
 
-alert(SQL_input.command.replace(/'/g, "''"));
+//alert(SQL_input.command.replace(/'/g, "''"));
 
 
 				switch (SQL_input.type){
