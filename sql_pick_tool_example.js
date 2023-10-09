@@ -1,4 +1,5 @@
 /// <reference path="c:\Program Files\Hexagon\Edgecam 2022.0\cam\PCI\pci-vsdoc.js" />
+/// <reference path="A:\ExecuteSqlCommand.js" />
 
 Include("A:\\ExecuteSqlCommand.js"); // import the functions and data enums for the SQL connection: https://github.com/AlbanT/JS_PCI/blob/master/ExecuteSqlCommand.js
 
