@@ -6,9 +6,11 @@
 	is correctly placed inside the EDGECAM plugins folder!!!!
 */
 
+var result = GetInitialCpl();
+
 alert(
     "function output: " +
-        GetInitialCpl() +
+        result +
         "\n" +
         "PCI variable output: " +
         GetPCIVariable("$InitialCPL")
