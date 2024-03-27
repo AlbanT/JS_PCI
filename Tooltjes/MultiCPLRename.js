@@ -37,14 +37,7 @@ function main() {
 
         // skip the first one as it is not a CPL
         if (x > 0) {
-            AddUserModToOperation(
-                hOp,
-                "$new_cpl_name[" + x + "]",
-                cpl,
-                tabIndex,
-                0,
-                ""
-            );
+            AddUserModToOperation(hOp, "$new_cpl_name[" + x + "]", cpl, tabIndex, 0, "");
             Delete("$new_cpl_name[" + x + "]");
             if (x % maxChecksPerTab == 0) {
                 tabIndex++;
@@ -54,19 +47,17 @@ function main() {
     var nOpRet = DoOperationMods(hOp);
     FreeOperation(hOp);
 
+    if (nOpRet != _FINISH) {
+        return false;
+    }
+
     for (i = 1; i < arrayLength; i++) {
         var new_name = GetPCIVariable("$new_cpl_name[" + i + "]");
         Display("new_name = " + new_name + "\n");
 
         if (new_name != "") {
             rename_cpl(arrayCPL[i], new_name);
-            Display(
-                "workdatum '" +
-                    arrayCPL[i] +
-                    "' is renamed to '" +
-                    new_name +
-                    "'.\n"
-            );
+            Display("workdatum '" + arrayCPL[i] + "' is renamed to '" + new_name + "'.\n");
         }
     }
 }

@@ -53,6 +53,10 @@ function main() {
     }
     var nOpRet = DoOperationMods(hOp);
     FreeOperation(hOp);
+	
+	if (nOpRet != _FINISH) {
+        return false;
+    }
 
     for (i = 1; i < arrayLength; i++) {
         var new_name = GetPCIVariable("$new_cpl_name[" + i + "]");
