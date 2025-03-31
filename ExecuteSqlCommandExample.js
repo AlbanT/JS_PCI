@@ -32,7 +32,7 @@ alert(Query.record[1 /*record_id*/].column[0 /*col_id*/].value);
 
 {
     "error": "",
-    "connection": "Provider=SQLNCLI11;Password=y74rvpy2d24atkpbkd_c2sbcu;User ID=toolstore_user;DataTypeCompatibility=80;server=xxxxx//ECSQLEXPRESS;database=Sample_ToolStore_20241",
+    "connection": "Provider=SQLNCLI11;Password=xxxxx;User ID=xxxxx;DataTypeCompatibility=80;server=xxxxx//ECSQLEXPRESS;database=Sample_ToolStore_20241",
     "row_count": 3,
     "column_count": 2,
     "input": {
